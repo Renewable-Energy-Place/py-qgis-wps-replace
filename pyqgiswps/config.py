@@ -138,6 +138,8 @@ def load_configuration():
     CONFIG.set('logstorage:redis', 'port', getenv('QGSWPS_REDIS_PORT', '6379'))
     CONFIG.set('logstorage:redis', 'dbnum', getenv('QGSWPS_REDIS_DBNUM', '0'))
     CONFIG.set('logstorage:redis', 'prefix', getenv('QGSWPS_REDIS_PREFIX', 'pyqgiswps'))
+    CONFIG.set('logstorage:redis', 'password', getenv('QGSWPS_REDIS_PASSWORD', 'redispass'))
+    CONFIG.set('logstorage:redis', 'ssl', getenv('QGSWPS_REDIS_SSL', 'True'))
 
     #
     # Projects cache
