@@ -218,17 +218,25 @@ class LogStore:
 
             see https://redis-py.readthedocs.io/en/latest/ for redis options
         """
-        LOGGER.debug("LOGSTORE: Initializing REDIS session")
+        LOGGER.debug("LOGSTORE: Initializing REDIS session - Modified")
         cfg = confservice['logstorage:redis']
         self._config = cfg
         self._prefix = cfg.get('prefix', fallback='pyggiswps')
         self._hstatus = "%s:status" % self._prefix
 
-        self._db = redis.StrictRedis(
-            host=cfg.get('host', fallback='localhost'),
-            port=cfg.getint('port', fallback=6379),
-            db=cfg.getint('dbnum', fallback=0))
-
+        try:
+          self._db = redis.StrictRedis(
+              host=cfg.get('host', fallback='localhost'),
+              port=cfg.getint('port', fallback=6379),
+              password=cfg.get('password', fallback='redispass'),
+              db=cfg.getint('dbnum', fallback=0),
+              ssl=cfg.getboolean('ssl', fallback=True))
+          LOGGER.debug("LOGSTORE: Connection string -> %s",self._db)
+          self._db.ping()
+          LOGGER.debug("LOGSTORE: REDIS Connected !")
+        except Exception as ex:
+          LOGGER.error("ERROR: %s",ex)
+          exit('Failed to connect to REDIS, terminating server.')
 
 #
 # The one and only one instance of logstore
