@@ -228,9 +228,7 @@ class LogStore:
           self._db = redis.StrictRedis(
               host=cfg.get('host', fallback='localhost'),
               port=cfg.getint('port', fallback=6379),
-              password=cfg.get('password', fallback='redispass'),
-              db=cfg.getint('dbnum', fallback=0),
-              ssl=cfg.getboolean('ssl', fallback=True))
+              db=cfg.getint('dbnum', fallback=0))
           LOGGER.debug("LOGSTORE: Connection string -> %s",self._db)
           self._db.ping()
           LOGGER.debug("LOGSTORE: REDIS Connected !")
